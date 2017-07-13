@@ -3,7 +3,7 @@ PouchDB.plugin(require('pouchdb-find'))
 const { map } = require('ramda')
 const db = new PouchDB(process.env.COUCHDB_URL + process.env.COUCHDB_NAME)
 const pkGenerator = require('./lib/build-pk')
-const { append, find, reject, compose, trim } = require('ramda')
+const { append, find, reject, compose, trim, merge } = require('ramda')
 
 //////////////////////
 //      CATS
@@ -16,11 +16,15 @@ const addCat = (cat, callback) => {
 const getCat = (catId, callback) => get(catId, callback)
 const updateCat = (updatedCat, callback) => update(updatedCat, callback)
 const deleteCat = (catId, callback) => deleteDoc(catId, callback)
-const listCats = (limit, callback) => {
-  const query = limit
-    ? { selector: { type: 'cat' }, limit: Number(limit) }
+
+const listCats = (ownerId, limit, callback) => {
+  var query = ownerId
+    ? { selector: { ownerId } }
     : { selector: { type: 'cat' } }
 
+  query = limit ? merge(query, { limit: Number(limit) }) : query
+
+  console.log('query:', query)
   findDocs(query, callback)
 }
 
