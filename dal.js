@@ -17,12 +17,20 @@ const getCat = (catId, callback) => get(catId, callback)
 const updateCat = (updatedCat, callback) => update(updatedCat, callback)
 const deleteCat = (catId, callback) => deleteDoc(catId, callback)
 
-const listCats = (ownerId, limit, callback) => {
-  var query = ownerId
-    ? { selector: { ownerId } }
-    : { selector: { type: 'cat' } }
+const listCats = (lastItem, ownerId, limit, callback) => {
+  // if ownerId then this is a filter and were not going to paginate.
+  //   why?  the filter is limiting our records.  no need to paginate
+  var query = {}
 
-  query = limit ? merge(query, { limit: Number(limit) }) : query
+  if (ownerId) {
+    // they are asking to filter by owner.. no pagination
+    query = { selector: { ownerId }, limit }
+  } else if (lastItem) {
+    // They are asking to paginate
+    query = { selector: { _id: { $gt: lastItem }, type: 'cat' }, limit }
+  } else {
+    query = { selector: { _id: { $gt: null }, type: 'cat' }, limit }
+  }
 
   console.log('query:', query)
   findDocs(query, callback)
@@ -41,7 +49,7 @@ const updateBreed = (updatedBreed, callback) => update(updatedBreed, callback)
 const deleteBreed = (breedId, callback) => deleteDoc(breedId, callback)
 const listBreeds = (limit, callback) => {
   const query = limit
-    ? { selector: { type: 'breed' }, limit: Number(limit) }
+    ? { selector: { type: 'breed' }, limit }
     : { selector: { type: 'breed' } }
 
   findDocs(query, callback)
