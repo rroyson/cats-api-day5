@@ -18,12 +18,11 @@ const updateCat = (updatedCat, callback) => update(updatedCat, callback)
 const deleteCat = (catId, callback) => deleteDoc(catId, callback)
 
 const listCats = (lastItem, ownerId, limit, callback) => {
-  // if ownerId then this is a filter and were not going to paginate.
-  //   why?  the filter is limiting our records.  no need to paginate
   var query = {}
 
   if (ownerId) {
-    // they are asking to filter by owner.. no pagination
+    // if ownerId then this is a filter and were not going to paginate.
+    //   why?  the filter is limiting our records.  no need to paginate
     query = { selector: { ownerId }, limit }
   } else if (lastItem) {
     // They are asking to paginate.  Give them the next page of results
