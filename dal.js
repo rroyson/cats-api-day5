@@ -26,9 +26,10 @@ const listCats = (lastItem, ownerId, limit, callback) => {
     // they are asking to filter by owner.. no pagination
     query = { selector: { ownerId }, limit }
   } else if (lastItem) {
-    // They are asking to paginate
+    // They are asking to paginate.  Give them the next page of results
     query = { selector: { _id: { $gt: lastItem }, type: 'cat' }, limit }
   } else {
+    // Give the first page of results.
     query = { selector: { _id: { $gt: null }, type: 'cat' }, limit }
   }
 
