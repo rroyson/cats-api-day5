@@ -24,4 +24,15 @@ db
     )
     console.log(results)
   })
+  .then(() => {
+    return db.find({
+      selector: {
+        type: 'breed'
+      }
+    })
+  })
+  .then(results => {
+    console.log("Here's a sample query where type ='breed':")
+    console.log(results)
+  })
   .catch(err => console.log(err))
