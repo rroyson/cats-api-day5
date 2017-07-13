@@ -1,4 +1,4 @@
-const PouchDB = require('pouchdb-http')
+const PouchDB = require('pouchdb')
 const { map } = require('ramda')
 const db = new PouchDB(process.env.COUCHDB_URL + process.env.COUCHDB_NAME)
 const pkGenerator = require('./lib/build-pk')

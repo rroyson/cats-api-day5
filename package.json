@@ -16,15 +16,8 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "node-http-error": "^1.1.0",
-    "pouchdb-find": "^6.3.0",
-    "pouchdb-http": "^6.0.2",
-    "pouchdb-ajax": "^6.3.0",
-    "pouchdb-changes-filter": "^6.3.0",
-    "pouchdb-debug": "^6.2.0",
-    "pouchdb-merge": "^6.3.0",
-
-    "ramda": "^0.24.1",
-    "request": "^2.81.0",
-    "uuid": "^3.1.0"
+    "pouchdb": "6.2.0",
+    "pouchdb-find": "6.2.0",
+    "ramda": "^0.24.1"
   }
 }
