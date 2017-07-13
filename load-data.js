@@ -60,6 +60,78 @@ db
       weightLbs: 10,
       breedId: 'breed_tabby',
       gender: 'F'
+    },
+    {
+      _id: 'cat_fluffy_owner_2222',
+      type: 'cat',
+      name: 'fluffy',
+      ownerId: 'owner_2222',
+      weightLbs: 3,
+      breedId: 'breed_tabby',
+      gender: 'F'
+    },
+    {
+      _id: 'cat_jr_owner_2222',
+      type: 'cat',
+      name: 'jr',
+      ownerId: 'owner_2222',
+      weightLbs: 12,
+      breedId: 'breed_siamese',
+      gender: 'M'
+    },
+    {
+      _id: 'cat_fatty_butterpants_owner_2222',
+      type: 'cat',
+      name: 'Fatty Butterpants',
+      ownerId: 'owner_2222',
+      weightLbs: 22,
+      breedId: 'breed_tabby',
+      gender: 'M'
+    },
+    {
+      _id: 'cat_nancy_owner_2222',
+      type: 'cat',
+      name: 'Nancy',
+      ownerId: 'owner_111',
+      weightLbs: 14,
+      breedId: 'breed_tabby',
+      gender: 'F'
+    },
+    {
+      _id: 'cat_tom_owner_2222',
+      type: 'cat',
+      name: 'Tom',
+      ownerId: 'owner_111',
+      weightLbs: 11,
+      breedId: 'breed_tabby',
+      gender: 'M'
+    },
+    {
+      _id: 'cat_muffin_owner_2222',
+      type: 'cat',
+      name: 'Muffin',
+      ownerId: 'owner_111',
+      weightLbs: 15,
+      breedId: 'breed_tabby',
+      gender: 'F'
+    },
+    {
+      _id: 'cat_rj_owner_2222',
+      type: 'cat',
+      name: 'RJ',
+      ownerId: 'owner_1234',
+      weightLbs: 15,
+      breedId: 'breed_tabby',
+      gender: 'M'
+    },
+    {
+      _id: 'cat_jimi_hendrix_owner_2222',
+      type: 'cat',
+      name: 'Jimi Hendrix',
+      ownerId: 'owner_1234',
+      weightLbs: 17,
+      breedId: 'breed_tabby',
+      gender: 'M'
     }
   ])
   .then(function(result) {
