@@ -35,6 +35,7 @@ After you have successfully provided the values for your environment variables, 
 
 ```
 $ npm install
+$ npm run load
 $ npm start
 ```
 

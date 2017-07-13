@@ -1,97 +1,57 @@
 const PouchDB = require('pouchdb')
+PouchDB.plugin(require('pouchdb-find'))
 const { map } = require('ramda')
 const db = new PouchDB(process.env.COUCHDB_URL + process.env.COUCHDB_NAME)
 const pkGenerator = require('./lib/build-pk')
-
-console.log('process.env.COUCHDB_NAME: ', process.env.COUCHDB_NAME)
-
 const { append, find, reject, compose, trim } = require('ramda')
 
 //////////////////////
 //      CATS
 //////////////////////
-function addCat(cat, callback) {
+const addCat = (cat, callback) => {
   // example _id -- "cat_big_time_owner_333"
   cat._id = pkGenerator('cat_', trim(cat.name) + ' ' + trim(cat.ownerId))
   add(cat, callback)
 }
+const getCat = (catId, callback) => get(catId, callback)
+const updateCat = (updatedCat, callback) => update(updatedCat, callback)
+const deleteCat = (catId, callback) => deleteDoc(catId, callback)
+const listCats = (limit, callback) => {
+  const query = limit
+    ? { selector: { type: 'cat' }, limit: Number(limit) }
+    : { selector: { type: 'cat' } }
 
-function getCat(catId, callback) {
-  get(catId, callback)
-}
-
-function updateCat(updatedCat, callback) {
-  update(updatedCat, callback)
-}
-
-function deleteCat(catId, callback) {
-  deleteDoc(catId, callback)
-}
-
-function listCats(limit, callback) {
-  const options = limit
-    ? {
-        include_docs: true,
-        startkey: 'cat_',
-        endkey: 'cat_\uffff',
-        limit: limit
-      }
-    : {
-        include_docs: true,
-        startkey: 'cat_',
-        endkey: 'cat_\uffff'
-      }
-
-  list(options, callback)
+  findDocs(query, callback)
 }
 
 //////////////////////
 //      BREEDS
 //////////////////////
-function addBreed(breed, callback) {
+const addBreed = (breed, callback) => {
   // example _id -- "breed_pixie-bob"
   breed._id = pkGenerator('breed_', trim(breed.breed))
   add(breed, callback)
 }
+const getBreed = (breedId, callback) => get(breedId, callback)
+const updateBreed = (updatedBreed, callback) => update(updatedBreed, callback)
+const deleteBreed = (breedId, callback) => deleteDoc(breedId, callback)
+const listBreeds = (limit, callback) => {
+  const query = limit
+    ? { selector: { type: 'breed' }, limit: Number(limit) }
+    : { selector: { type: 'breed' } }
 
-function getBreed(breedId, callback) {
-  get(breedId, callback)
-}
-
-function updateBreed(updatedBreed, callback) {
-  update(updatedBreed, callback)
-}
-
-function deleteBreed(breedId, callback) {
-  deleteDoc(breedId, callback)
-}
-
-function listBreeds(limit, callback) {
-  const options = limit
-    ? {
-        include_docs: true,
-        startkey: 'breed_',
-        endkey: 'breed_\uffff',
-        limit: limit
-      }
-    : {
-        include_docs: true,
-        startkey: 'breed_',
-        endkey: 'breed_\uffff'
-      }
-
-  list(options, callback)
+  findDocs(query, callback)
 }
 
 ////////////////////////////
 //    helper functions
 ////////////////////////////
-function list(options, callback) {
-  db.allDocs(options, function(err, data) {
-    if (err) callback(err)
-    callback(null, map(row => row.doc, data.rows))
-  })
-}
+// function list(options, callback) {
+//   db.allDocs(options, function(err, data) {
+//     if (err) callback(err)
+//     callback(null, map(row => row.doc, data.rows))
+//   })
+// }
 
 function add(doc, callback) {
   db.put(doc, function(err, doc) {
@@ -127,6 +87,11 @@ function deleteDoc(id, callback) {
       callback(err)
     })
 }
+
+const findDocs = (query, cb) =>
+  query
+    ? db.find(query).then(res => cb(null, res.docs)).catch(err => cb(err))
+    : cb(null, [])
 
 const dal = {
   addCat,
