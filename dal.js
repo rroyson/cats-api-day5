@@ -49,19 +49,9 @@ const updateBreed = (updatedBreed, callback) => update(updatedBreed, callback)
 const deleteBreed = (breedId, callback) => deleteDoc(breedId, callback)
 
 const listBreeds = (lastItem, limit, callback) => {
-  var query = {}
-
-  if (lastItem) {
-    // They are asking to paginate.  Give them the next page of results
-    query = { selector: { _id: { $gt: lastItem }, type: 'breed' }, limit }
-  } else {
-    // Give the first page of results.
-    query = { selector: { _id: { $gt: null }, type: 'breed' }, limit }
-  }
-
-  // const query = limit
-  //   ? { selector: { type: 'breed' }, limit }
-  //   : { selector: { type: 'breed' } }
+  const query = lastItem
+    ? { selector: { _id: { $gt: lastItem }, type: 'breed' }, limit }
+    : { selector: { _id: { $gt: null }, type: 'breed' }, limit }
 
   findDocs(query, callback)
 }

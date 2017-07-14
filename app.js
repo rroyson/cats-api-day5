@@ -248,11 +248,11 @@ app.delete('/breeds/:id', function(req, res, next) {
 
 //  LIST - GET /breeds
 app.get('/breeds', function(req, res, next) {
-  var limit = pathOr(10, ['query', 'limit'], req)
-  limit = Number(limit)
+  const limit = pathOr(10, ['query', 'limit'], req)
+
   const lastItem = pathOr(null, ['query', 'lastItem'], req)
 
-  dal.listBreeds(lastItem, limit, function(err, data) {
+  dal.listBreeds(lastItem, Number(limit), function(err, data) {
     if (err) return next(new HTTPError(err.status, err.message, err))
     res.status(200).send(data)
   })
