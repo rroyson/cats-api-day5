@@ -36,14 +36,12 @@ const listCats = (lastItem, filter, limit, callback) => {
     const arrFilter = split(':', filter)
     const filterField = head(arrFilter)
     const filterValue = last(arrFilter)
-    console.log('filter value', filterValue)
+
     //   why?  the filter is limiting our records.  no need to paginate
     const selectorValue = {}
     selectorValue[filterField] = Number(filterValue)
       ? Number(filterValue)
       : filterValue
-
-    console.log(selectorValue)
 
     // { foo: "bar", name: 'Fatty Butterpants' }
     // { breedId: 'breed_siamese' }
