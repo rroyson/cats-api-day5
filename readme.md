@@ -23,15 +23,26 @@ $ cd cats-api
   - `COUCHDB_NAME`
   - `PORT`
 
-For example here is an example of a value for the `COUCHDB_URL` environment variable for an instance of CouchDB running in Cloudant.
+For example here are example values for `COUCHDB_URL` and `COUCHDB_NAME` environment variables for an instance of CouchDB running in IBM Blue Mix's Cloudant service:
 
 ```
-COUCHDB_URL=https://<DB KEY>:<SECRET>@<BASE URL TO CLOUDANT.com/
+COUCHDB_URL=https://<KEY>:<PASSWORD>@<BASE URL TO CLOUDANT.com/
+COUCHDB_NAME=cats
+```
+
+**Complete URL Example**
+
+```
+const db = new PouchDB(process.env.COUCHDB_URL + process.env.COUCHDB_NAME)
+
+// would produce something such as:
+// const db = new PouchDB(https://arencharlynaturousfeli7:287bb97bafee05f3d2fb7840371182d3d2534red@90629927-b1a9-4251-9b99-f76bd577tedx8-bluemix.cloudant.com/cats)
+
 ```
 
 ### Installing Dependencies and starting our API
 
-After you have successfully provided the values for your environment variables, install dependencies and start the api:
+After you have successfully provided the values for your environment variables, install dependencies, load data, load indexs, and start the api.  See scripts within the **package.json** for details:
 
 ```
 $ npm install

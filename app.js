@@ -115,6 +115,26 @@ app.get('/cats', function(req, res, next) {
   var limit = pathOr(10, ['query', 'limit'], req)
   limit = Number(limit)
 
+  // TODO: refactor the ownerId filter to a generic filter query string
+  //   ex:  /cats?filter=ownerId:owner_2222
+
+  const ownerId = pathOr(null, ['query', 'ownerId'], req)
+  const lastItem = pathOr(null, ['query', 'lastItem'], req)
+
+  dal.listCats(lastItem, ownerId, limit, function(err, data) {
+    if (err) return next(new HTTPError(err.status, err.message, err))
+    res.status(200).send(data)
+  })
+})
+
+//   LIST - GET /cats
+app.get('/cats', function(req, res, next) {
+  var limit = pathOr(10, ['query', 'limit'], req)
+  limit = Number(limit)
+
+  // TODO: refactor the ownerId filter to a generic filter query string
+  //   ex:  /cats?filter=ownerId:owner_2222
+
   const ownerId = pathOr(null, ['query', 'ownerId'], req)
   const lastItem = pathOr(null, ['query', 'lastItem'], req)
 
@@ -228,9 +248,11 @@ app.delete('/breeds/:id', function(req, res, next) {
 
 //  LIST - GET /breeds
 app.get('/breeds', function(req, res, next) {
-  const limit = pathOr(null, ['query', 'limit'], req)
+  var limit = pathOr(10, ['query', 'limit'], req)
+  limit = Number(limit)
+  const lastItem = pathOr(null, ['query', 'lastItem'], req)
 
-  dal.listBreeds(limit, function(err, data) {
+  dal.listBreeds(lastItem, limit, function(err, data) {
     if (err) return next(new HTTPError(err.status, err.message, err))
     res.status(200).send(data)
   })
