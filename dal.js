@@ -3,7 +3,17 @@ PouchDB.plugin(require('pouchdb-find'))
 const { map } = require('ramda')
 const db = new PouchDB(process.env.COUCHDB_URL + process.env.COUCHDB_NAME)
 const pkGenerator = require('./lib/build-pk')
-const { append, find, reject, compose, trim, merge } = require('ramda')
+const {
+  append,
+  find,
+  reject,
+  compose,
+  trim,
+  merge,
+  split,
+  head,
+  last
+} = require('ramda')
 
 //////////////////////
 //      CATS
@@ -17,13 +27,24 @@ const getCat = (catId, callback) => get(catId, callback)
 const updateCat = (updatedCat, callback) => update(updatedCat, callback)
 const deleteCat = (catId, callback) => deleteDoc(catId, callback)
 
-const listCats = (lastItem, ownerId, limit, callback) => {
+const listCats = (lastItem, filter, limit, callback) => {
   var query = {}
 
-  if (ownerId) {
-    // if ownerId then this is a filter and were not going to paginate.
+  if (filter) {
+    //split "ownerId:owner_2222" into an array of ['ownerId','owner_2222']
+    //arrFilter = ['ownerId','owner_2222']
+    const arrFilter = split(':', filter)
+    const filterField = head(arrFilter)
+    const filterValue = last(arrFilter)
     //   why?  the filter is limiting our records.  no need to paginate
-    query = { selector: { ownerId }, limit }
+    const selectorValue = {}
+    selectorValue[filterField] = filterValue
+    // { foo: "bar", name: 'Fatty Butterpants' }
+    // { breedId: 'breed_siamese' }
+    // { ownerId: 'owner_2222' }
+    // { gender: 'M' }
+
+    query = { selector: selectorValue, limit }
   } else if (lastItem) {
     // They are asking to paginate.  Give them the next page of results
     query = { selector: { _id: { $gt: lastItem }, type: 'cat' }, limit }
